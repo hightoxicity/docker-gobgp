@@ -55,6 +55,7 @@ if [ "${NODE_LABELS_JSONFILE}" != "" ]; then
 
   export TORAS=$(cat ${NODE_LABELS_JSONFILE} | /bin/jq -r '.toras')
   export TORPEERIP=$(cat ${NODE_LABELS_JSONFILE} | /bin/jq -r '.torpeerip')
+  export TORASEGRESS=$(cat ${NODE_LABELS_JSONFILE} | /bin/jq -r '.torasegress')
 
   echo "Found TOR peer ASN: ${TORAS}"
   echo "Found TOR peer IP: ${TORPEERIP}"
