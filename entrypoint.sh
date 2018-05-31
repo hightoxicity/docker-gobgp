@@ -3,6 +3,7 @@
 NODE_LABELS_JSONFILE="/labels.json"
 GOBGPD_CONF="/gobgpd.conf"
 CONF_TYPE="toml"
+GOBGP_CONF_TARGET=$(mktemp)
 
 usage()
 {
@@ -13,6 +14,7 @@ usage()
     echo -e "\t--node_labels_jsonfile=$NODE_LABELS_JSONFILE"
     echo -e "\t--gobgpd_conf=$GOBGPD_CONF"
     echo -e "\t--conf_type=${CONF_TYPE}"
+    echo -e "\t--conf_target=${GOBGP_CONF_TARGET}"
     echo ""
 }
 
@@ -32,6 +34,9 @@ while [ "$1" != "" ]; do
             ;;
         --conf_type)
             CONF_TYPE=$VALUE
+            ;;
+        --conf_target)
+            GOBGP_CONF_TARGET=$VALUE
             ;;
         *)
             echo "ERROR: unknown parameter \"$PARAM\""
@@ -60,8 +65,6 @@ if [ "${NODE_LABELS_JSONFILE}" != "" ]; then
   echo "Found TOR peer ASN: ${TORAS}"
   echo "Found TOR peer IP: ${TORPEERIP}"
 fi
-
-GOBGP_CONF_TARGET=$(mktemp)
 
 /bin/envsubst < ${GOBGPD_CONF} > ${GOBGP_CONF_TARGET}
 #cat ${GOBGPD_CONF} | while IFS= read line; do eval echo "\"${line}\""; done > ${GOBGP_CONF_TARGET}
